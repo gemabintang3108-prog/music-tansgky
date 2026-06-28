@@ -1,0 +1,19 @@
+[build]
+  publish = "public"
+  command = "echo 'TangskyMusify: static frontend, no build step needed'"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[edge_functions]]
+  function = "proxy-audio"
+  path = "/api/proxy-audio"
+
+# Semua endpoint /api/* lainnya (search, lyrics, artist, suggest, ytplay, stream)
+# ditangani oleh satu Netlify Function yang membungkus Express app yang sama
+# dengan yang dipakai di server.ts.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server"
+  status = 200
